@@ -8,10 +8,10 @@ import smart_open
 from awsglue.context import GlueContext
 from awsglue.dynamicframe import DynamicFrame
 from awsglue.job import Job
-from awsglue.transforms import *
+from awsglue.transforms import * # pyright: ignore[reportAssignmentType]
 from awsglue.utils import getResolvedOptions
 from pandas import DataFrame
-from pyspark.context import SparkContext
+from pyspark.context import SparkContext # type: ignore
 
 args = getResolvedOptions(
     sys.argv,
@@ -46,7 +46,7 @@ def read_data(bucket_name: str, s3_file_key: str) -> pd.DataFrame:
     json_list = []
     for json_line in smart_open.open(
         source_uri, transport_params={"client": s3_client}
-    ):
+    ): # type: ignore
         json_list.append(ast.literal_eval(json_line))
     df = pd.DataFrame(json_list)
     print(f"df: {df.shape}")
